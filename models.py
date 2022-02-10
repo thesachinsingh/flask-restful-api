@@ -7,7 +7,7 @@ class Course(db.Model):
     course_name = db.Column(db.String, nullable=False)
     course_code = db.Column(db.String, unique=True, nullable=False)
     course_description = db.Column(db.String)
-    course_enrollments = db.relationship("Enrollment", backref='enrolled_course')
+    students = db.relationship("Student", secondary="enrollment", back_populates='courses')
 
     def __repr__(self):
         return "<Course %r>" % self.course_code
@@ -17,7 +17,7 @@ class Student(db.Model):
     roll_number = db.Column(db.String, unique=True, nullable=False)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String)
-    student_enrollments = db.relationship('Enrollment', backref='enrolled_student')
+    courses = db.relationship('Course', secondary="enrollment", back_populates='students')
 
     def __repr__(self):
         return '<Student %r>' % self.roll_number
